@@ -28,6 +28,11 @@ import userRoutes from './routes/userRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 
+// Обновление баланса (new)
+import adminUsersRoutes from './routes/adminUsers.js';
+
+
+
 // Настройка __dirname для ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,7 +49,7 @@ const clients = new Map();
 
 // Настраиваем директорию для загрузок
 const isProduction = process.env.NODE_ENV === 'production';
-const uploadsPath = path.join(__dirname, 'uploads');
+const uploadsPath = isProduction ? '/data/uploads' : path.join(__dirname, 'uploads');
 
 // Настраиваем статическую раздачу файлов из директории uploads
 app.use('/uploads', express.static(uploadsPath));
@@ -185,6 +190,8 @@ app.use('/api/referrals', referralRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/admin/investments', investmentRoutes);
 app.use('/api/investments', investmentRoutes);
+app.use('/api/admin/users', adminUsersRoutes);
+
 
 // Обработка WebSocket подключений
 wss.on('connection', (ws, req) => {
