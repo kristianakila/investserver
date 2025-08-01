@@ -233,6 +233,11 @@ app.post(`/webhook/${config.TELEGRAM_BOT_TOKEN}`, async (req, res) => {
     }
 });
 
+app.get(`/webhook/${config.TELEGRAM_BOT_TOKEN}`, (req, res) => {
+  res.send('Webhook endpoint is alive. Use POST requests here.');
+});
+
+
 // Обработка всех входящих текстовых сообщений (не команд)
 bot.on('text', async (msg) => {
     try {
