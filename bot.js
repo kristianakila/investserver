@@ -233,9 +233,16 @@ app.post(`/webhook/${config.TELEGRAM_BOT_TOKEN}`, async (req, res) => {
     }
 });
 
+// Добавьте как можно выше, сразу после инициализации app
+app.use((req, res, next) => {
+  console.log(`[Express] ${req.method} ${req.url}`);
+  next();
+});
+
 app.get(`/webhook/${config.TELEGRAM_BOT_TOKEN}`, (req, res) => {
   res.send('Webhook endpoint is alive. Use POST requests here.');
 });
+
 
 
 // Обработка всех входящих текстовых сообщений (не команд)
