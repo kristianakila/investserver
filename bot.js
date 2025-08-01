@@ -240,6 +240,7 @@ app.use((req, res, next) => {
 });
 
 app.get(`/webhook/${config.TELEGRAM_BOT_TOKEN}`, (req, res) => {
+  console.log('GET /webhook handler triggered');
   res.send('Webhook endpoint is alive. Use POST requests here.');
 });
 
