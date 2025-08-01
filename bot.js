@@ -49,7 +49,7 @@ const clients = new Map();
 
 // Настраиваем директорию для загрузок
 const isProduction = process.env.NODE_ENV === 'production';
-const uploadsPath = isProduction ? '/data/uploads' : path.join(__dirname, 'uploads');
+const uploadsPath = isProduction ? '/tmp/uploads' : path.join(__dirname, 'uploads');
 
 // Настраиваем статическую раздачу файлов из директории uploads
 app.use('/uploads', express.static(uploadsPath));
@@ -455,3 +455,4 @@ startServer().catch(error => {
 });
 
 export default server;
+
