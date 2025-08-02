@@ -28,11 +28,6 @@ import userRoutes from './routes/userRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 
-// Обновление баланса (new)
-import adminUsersRoutes from './routes/adminUsers.js';
-
-
-
 // Настройка __dirname для ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -49,7 +44,7 @@ const clients = new Map();
 
 // Настраиваем директорию для загрузок
 const isProduction = process.env.NODE_ENV === 'production';
-const uploadsPath = isProduction ? '/tmp/uploads' : path.join(__dirname, 'uploads');
+const uploadsPath = isProduction ? '/data/uploads' : path.join(__dirname, 'uploads');
 
 // Настраиваем статическую раздачу файлов из директории uploads
 app.use('/uploads', express.static(uploadsPath));
@@ -190,8 +185,6 @@ app.use('/api/referrals', referralRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/admin/investments', investmentRoutes);
 app.use('/api/investments', investmentRoutes);
-app.use('/api/admin/users', adminUsersRoutes);
-
 
 // Обработка WebSocket подключений
 wss.on('connection', (ws, req) => {
@@ -232,19 +225,6 @@ app.post(`/webhook/${config.TELEGRAM_BOT_TOKEN}`, async (req, res) => {
         res.sendStatus(500);
     }
 });
-
-// Добавьте как можно выше, сразу после инициализации app
-app.use((req, res, next) => {
-  console.log(`[Express] ${req.method} ${req.url}`);
-  next();
-});
-
-app.get(`/webhook/${config.TELEGRAM_BOT_TOKEN}`, (req, res) => {
-  console.log('GET /webhook handler triggered');
-  res.send('Webhook endpoint is alive. Use POST requests here.');
-});
-
-
 
 // Обработка всех входящих текстовых сообщений (не команд)
 bot.on('text', async (msg) => {
@@ -468,4 +448,5 @@ startServer().catch(error => {
 });
 
 export default server;
+
 
